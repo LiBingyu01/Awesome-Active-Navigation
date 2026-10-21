@@ -4,13 +4,16 @@
 
 **Language:** English · [简体中文](README.zh-CN.md)
 
-**75 papers & benchmarks · 6 research themes · 3 takeaways per paper · Updated: October 21, 2026**
+**87 papers & benchmarks · 7 research themes · 3 takeaways per paper · Updated: October 21, 2026**
+
+**Special focus:** [**Code Agents for Navigation & Active Visual Feedback**](#sec-code) — executable programs, active visual checks, code repair, and target search (12 papers; see direct/transfer/tool-only labels).
 
 ## Contents
 
 - [Editor’s Picks · Start Here](#featured)
 - [Scope, Definitions & Inclusion Criteria](#scope)
 - [Papers by Research Theme](#papers)
+  - [SPECIAL: Code Agents for Navigation & Active Visual Feedback (12)](#sec-code)
   - [Ground / General Active Semantic Navigation (25)](#sec-a)
   - [Aerial Active Search, ObjectNav & Perception (9)](#sec-b)
   - [Aerial VLN / VLA and Transfer Baselines (17)](#sec-c)
@@ -28,6 +31,9 @@ An editorial reading path organized by relevance rather than publication ranking
 
 | Paper | Why read it? |
 | :--- | :--- |
+| [**ASENA**](https://arxiv.org/abs/2609.39207) · arXiv 2026 | Most direct coding-agent navigation system: robot program generation, self-repair, and search/visual inspection. |
+| [**Fly-by-Code**](https://arxiv.org/abs/2610.12549) · arXiv 2026 | Aerial code agents with active diagnostic View/Probe; transferable, but originally manipulation, not ObjectNav. |
+| [**VLMaps**](https://ieeexplore.ieee.org/document/10160969/) · ICRA 2023 | LLM-generated executable Python navigation atop open-vocabulary spatial maps. |
 | [**UAST**](https://openaccess.thecvf.com/content/CVPR2026/html/Qin_UAST_Unified_Active_Search_and_Tracking_for_Arbitrary_Targets_with_CVPR_2026_paper.html) · CVPR 2026 | Closest link from active search to persistent UAV tracking. |
 | [**APEX**](https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_APEX_A_Decoupled_Memory-based_Explorer_for_Asynchronous_Aerial_Object_Goal_CVPR_2026_paper.html) · CVPR 2026 | A strong aerial target-search pipeline with asynchronous memory and control. |
 | [**OctoMem-Agent**](https://openaccess.thecvf.com/content/CVPR2026/html/Zhou_Memory-Augmented_Scene_Understanding_and_Exploration_for_Open-World_Aerial_Object-Goal_Navigation_CVPR_2026_paper.html) · CVPR 2026 | Unknown 3D frontiers and instruction-conditioned octree memory. |
@@ -54,6 +60,29 @@ We distinguish **Aerial ObjectNav (semantic target discovery without detailed ro
 <a id="papers"></a>
 
 ## Papers by Research Theme
+
+<a id="sec-code"></a>
+
+### SPECIAL · Code Agents for Navigation & Active Visual Feedback (12)
+
+This **special track is listed first** to study navigation driven by executable programs, code repair, and active perception. Only `Code-Nav` entries demonstrate code-based navigation directly; `Code-Transfer` and `Tool-Agent` are explicitly marked as methodological references, **not** proven solutions to initially-invisible object search. Fly-by-Code is an aerial manipulation work; its View/Probe feedback is a proposed design inspiration for navigation, not a published navigation benchmark.
+
+**Suggested mechanism:** `Observe → Diagnose missing evidence → Generate/execute a view or navigation program → Verify target → Navigate / Track / Reacquire`.
+
+| Paper title | Venue / status | Relevance | Key Contributions · 3 Takeaways |
+| :--- | :--- | :--- | :--- |
+| [**ASENA: Self-evolving Agents for Embodied Navigation**](https://arxiv.org/abs/2609.39207) | arXiv preprint · 2026-09 | `Code-Nav` | **1 · Task** — Connects a general-purpose coding agent to navigation, object-goal search, and embodied QA<br>**2 · Method** — Generates and executes robot programs; inspects outcomes, repairs failures, and retains reusable code skills<br>**3 · Highlight** — Closest current coding-agent navigation reference; physical G1 demonstrations combine search and visual inspection |
+| [**Visual Language Maps for Robot Navigation**](https://ieeexplore.ieee.org/document/10160969/) | ICRA 2023 | `Code-Nav` | **1 · Task** — Handles open-vocabulary and spatial-relation navigation commands on mobile robots<br>**2 · Method** — Fuses vision-language features into 3D maps and uses LLM-generated executable Python navigation/API calls<br>**3 · Highlight** — A concrete predecessor for grounding generated navigation code in spatial perception; the map may be built beforehand |
+| [**Audio Visual Language Maps for Robot Navigation**](https://avlmaps.github.io/) | ISER 2023 | `Code-Nav` | **1 · Task** — Extends language-conditioned navigation to audio, images, and objects<br>**2 · Method** — Uses LLM-generated executable code to query and combine modality-conditioned map heatmaps and issue navigation commands<br>**3 · Highlight** — Useful blueprint for code-generated sensing queries and multimodal goal verification, not an on-the-fly active-search method |
+| [**Code as Policies: Language Model Programs for Embodied Control**](https://arxiv.org/abs/2209.07753) | ICRA 2023 | `Code-Nav` | **1 · Task** — Turns language tasks into executable robot policies, including mobile-robot navigation demonstrations<br>**2 · Method** — Hierarchical code generation composes perception APIs, conditionals, loops, and motion primitives<br>**3 · Highlight** — Foundational code-as-action baseline; navigation demonstrations do not establish autonomous target discovery |
+| [**VIA: Visual Interface Agent for Robot Control**](https://arxiv.org/abs/2607.11119) | arXiv preprint · 2026-07 | `Tool-Agent` | **1 · Task** — Investigates general-purpose computer-use/coding agents controlling real robots via a visual interface<br>**2 · Method** — Agents inspect screenshots, invoke interface tools, and adjust behavior from visual feedback without robot-policy fine-tuning<br>**3 · Highlight** — Project reports a mobile-manipulator demonstration involving navigation; primarily visual tool use, not synthesized navigation programs |
+| [**Fly-by-Code: Embodied Coding Agents for Aerial Manipulation with Active Visual and Physical Feedback**](https://arxiv.org/abs/2610.12549) | arXiv preprint · 2026-10 | `Code-Transfer` | **1 · Task** — Addresses partial observability and ambiguous failures in aerial manipulation<br>**2 · Method** — Writes task programs plus separate active View/Probe diagnostic programs to obtain missing evidence<br>**3 · Highlight** — Key inspiration for active viewpoint diagnosis on UAVs, but it does NOT benchmark initial-invisible-target navigation |
+| [**Coding Agents for Generalized Task and Motion Planning Problems**](https://arxiv.org/abs/2609.30233) | arXiv preprint · 2026-09 | `Code-Transfer` | **1 · Task** — Studies whether coding agents can synthesize generalized task-and-motion-planning (TAMP) programs<br>**2 · Method** — Agents probe simulators, write/test Python policies, and freeze programs for held-out instances<br>**3 · Highlight** — Strong program-synthesis methodology; evaluated largely with fully observed object-centric simulator states rather than visual search |
+| [**Towards Reliable Code-as-Policies: A Neuro-Symbolic Framework for Embodied Task Planning**](https://papers.neurips.cc/paper_files/paper/2025/hash/6d13ce54347c65845614d01ced1dbe23-Abstract-Conference.html) | NeurIPS 2025 | `Code-Transfer` | **1 · Task** — Targets grounding failures in executable robot plans under partial observability<br>**2 · Method** — Combines symbolic verification with exploratory code that acquires missing observations during validation<br>**3 · Highlight** — Especially relevant to active evidence acquisition before committing to navigation actions; evaluation focuses on embodied tasks, not UAV ObjectNav |
+| [**ProgPrompt: Generating Situated Robot Task Plans using Large Language Models**](https://progprompt.github.io/) | ICRA 2023 / Autonomous Robots 2023 | `Code-Transfer` | **1 · Task** — Generates executable, situated household task plans from language and scene objects<br>**2 · Method** — Prompts Python-like action APIs with preconditions/assertions and feedback-driven recovery<br>**3 · Highlight** — A classic executable task-planning ancestor, but not a dedicated visual navigation or viewpoint-selection method |
+| [**Voyager: An Open-Ended Embodied Agent with Large Language Models**](https://arxiv.org/abs/2305.16291) | TMLR 2024 | `Code-Transfer` | **1 · Task** — Studies autonomous exploration and open-ended skill acquisition in Minecraft<br>**2 · Method** — Builds an executable code skill library with curriculum learning, error feedback, and self-verification<br>**3 · Highlight** — Inspiration for persistent discovery skills; Minecraft is not a physical-robot visual navigation benchmark |
+| [**A Few Words Go a Long Way: Language Guided Robot Policy Synthesis**](https://arxiv.org/abs/2607.23784) | arXiv preprint · 2026-07 | `Code-Transfer` | **1 · Task** — Treats robot policy acquisition as interactive program synthesis with a human supervisor<br>**2 · Method** — Coding agents compose perception/control modules and refine code from natural-language corrections and execution traces<br>**3 · Highlight** — Transferable idea for correcting search strategies, but the reported benchmark is manipulation rather than navigation |
+| [**SpaceMind: A Modular and Self-Evolving Embodied Vision-Language Agent Framework for Autonomous On-orbit Servicing**](https://doi.org/10.1016/j.actaastro.2026.09.004) | Acta Astronautica 2026 (online) | `Tool-Agent` | **1 · Task** — Addresses autonomous space proximity navigation, search-and-approach, and inspection<br>**2 · Method** — Combines VLM reasoning, tool/skill routing, persistent skill files, and feedback-based adaptation<br>**3 · Highlight** — Good active search-to-approach analogue; it is tool orchestration/skill evolution, NOT demonstrated on-the-fly code synthesis |
 
 <a id="sec-a"></a>
 
@@ -176,7 +205,7 @@ We distinguish **Aerial ObjectNav (semantic target discovery without detailed ro
 
 ## Research Roadmap & Experimental Design
 
-**Suggested reading order:** PONI → VLFM → WoMAP / Context-Nav → FUEL / STEM → UAV-ON → APEX / OctoMem-Agent → UAST → OpenFly / AirSim360. Read search objectives first, then 3D aerial embodiment.
+**Suggested reading order:** ASENA → VLMaps / Code as Policies → Fly-by-Code / Reliable Code-as-Policies → PONI → VLFM → WoMAP / Context-Nav → FUEL / STEM → UAV-ON → APEX / OctoMem-Agent → UAST → OpenFly / AirSim360. Read search objectives first, then 3D aerial embodiment.
 
 | Research question | Controlled comparison | Suggested metrics |
 | :--- | :--- | :--- |
@@ -184,6 +213,7 @@ We distinguish **Aerial ObjectNav (semantic target discovery without detailed ro
 | Does active observation help? | Fixed vs. movable camera; narrow FOV vs. panoramic; heading control on/off | Information gain, target visibility, sensing cost |
 | Does 3D mobility matter? | Planar moves vs. XYZ translation; varying occlusion difficulty | SR, collision rate, path length, visibility |
 | How should search transition to tracking? | Explicit Search / Verify / Track / Reacquire states | Discovery SR, track persistence, reacquisition delay |
+| Can a coding agent actively acquire missing target evidence? | Code agent vs. fixed tool-calling planner; disable self-repair or diagnostic observations | first-detection SR, false confirmation, number of diagnostic views, code failures, tokens/latency |
 | Do world models improve exploration? | Oracle / partial / imagined / memory-free maps | Prediction accuracy, SR, SPL, planning runtime |
 
 **Aerial panorama research opportunity:** Keep UAV heading fixed and let XYZ translation change the view, then contrast front-facing, ERP 360°, and yaw-enabled agents. Evaluate actual discovery time and information gain, not mere target visibility.

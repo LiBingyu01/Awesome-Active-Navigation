@@ -4,13 +4,16 @@
 
 **语言 / Language：** 简体中文 · [English](README.md)
 
-**75 篇论文与基准 · 6 个研究主题 · 每篇 3 点速览 · 最后更新：2026-10-21**
+**87 篇论文与基准 · 7 个研究主题 · 每篇 3 点速览 · 最后更新：2026-10-21**
+
+**特别专题：** [**Code Agents for Navigation · 可执行程序驱动的主动导航**](#sec-code) — 代码生成、主动视觉核验、错误修复、目标搜索（12 篇，明确区分直接导航和相关迁移工作）。
 
 ## 目录
 
 - [精选必读 · Start Here](#featured)
 - [范围、术语与筛选标准](#scope)
 - [按研究主题浏览](#papers)
+  - [特别专题 · Code Agents for Navigation：程序化主动导航 (12)](#sec-code)
   - [地面与通用主动语义导航 (25)](#sec-a)
   - [无人机主动搜索、目标导航与主动感知 (9)](#sec-b)
   - [无人机 VLN / VLA 与迁移基线 (17)](#sec-c)
@@ -28,6 +31,9 @@
 
 | 论文 | 推荐理由 |
 | :--- | :--- |
+| [**ASENA**](https://arxiv.org/abs/2609.39207) · arXiv 2026 | 最直接的 Coding Agent 导航工作：机器人程序生成、自修复、主动搜索与视觉检查。 |
+| [**Fly-by-Code**](https://arxiv.org/abs/2610.12549) · arXiv 2026 | 空中 Coding Agent 的主动 View/Probe 诊断；可迁移但原任务为操作而非 ObjectNav。 |
+| [**VLMaps**](https://ieeexplore.ieee.org/document/10160969/) · ICRA 2023 | 在开放词汇空间地图上，通过 LLM 生成可执行 Python 导航代码。 |
 | [**UAST**](https://openaccess.thecvf.com/content/CVPR2026/html/Qin_UAST_Unified_Active_Search_and_Tracking_for_Arbitrary_Targets_with_CVPR_2026_paper.html) · CVPR 2026 | 主动搜索与长期无人机目标追踪的直接连接点。 |
 | [**APEX**](https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_APEX_A_Decoupled_Memory-based_Explorer_for_Asynchronous_Aerial_Object_Goal_CVPR_2026_paper.html) · CVPR 2026 | 具有异步记忆、决策与搜索模块的空中目标搜索基线。 |
 | [**OctoMem-Agent**](https://openaccess.thecvf.com/content/CVPR2026/html/Zhou_Memory-Augmented_Scene_Understanding_and_Exploration_for_Open-World_Aerial_Object-Goal_Navigation_CVPR_2026_paper.html) · CVPR 2026 | 未知三维前沿 + 指令条件化八叉树记忆。 |
@@ -51,9 +57,34 @@
 
 无人机文献区分 **空中 ObjectNav（无详细路径指令的未知目标搜索）** 与 **空中 VLN（根据语言指令跟随导航）**，以免任务定义混淆。
 
+**代码智能体标签：** `Code-Nav` = 实际通过生成可执行程序完成导航；`Code-Transfer` = 在其他具身任务验证的程序合成方法；`Tool-Agent` = 主要编排工具/技能，不能直接认为会在线生成程序。**Code Agent 不必然等于主动导航 Agent**。
+
 <a id="papers"></a>
 
 ## 按研究主题浏览 · Papers
+
+<a id="sec-code"></a>
+
+### 特别专题 · 导航代码智能体与主动视觉反馈 (12)
+
+本专题作为**所有论文分类的第一栏**，集中整理可执行导航程序、程序自修复和主动感知证据获取。仅 `Code-Nav` 直接展示代码驱动的导航；`Code-Transfer` 与 `Tool-Agent` 是**明确标注的关联方法**，不得等同于已经完成“起初不可见目标搜索”的导航系统。Fly-by-Code 的原任务是空中操作，主动 View/Probe 是可以迁移的启发，而不是已验证的目标导航结果。
+
+**推荐研究闭环：** `观察 → 诊断缺失证据 → 生成/执行主动视点或导航程序 → 目标确认 → 接近/追踪/重新捕获`。
+
+| 论文标题 | 发表位置 / 状态 | 研究关联 | 核心创新 · 3 点 |
+| :--- | :--- | :--- | :--- |
+| [**ASENA: Self-evolving Agents for Embodied Navigation**](https://arxiv.org/abs/2609.39207) | arXiv preprint · 2026-09 | `Code-Nav` | **1 · 任务** — 将通用 Coding Agent 引入导航、ObjectNav 与具身问答任务<br>**2 · 方法** — 自主编写和执行机器人程序，检查结果、修复失败，并保留可复用代码技能<br>**3 · 亮点** — 最直接的 Code Agent 导航参考；G1 实机演示涵盖搜索与视觉检查 |
+| [**Visual Language Maps for Robot Navigation**](https://ieeexplore.ieee.org/document/10160969/) | ICRA 2023 | `Code-Nav` | **1 · 任务** — 面向移动机器人的开放词汇和空间关系导航指令<br>**2 · 方法** — 将视觉语言特征映射至三维地图，并用 LLM 生成可执行 Python 导航与 API 调用<br>**3 · 亮点** — 提供“代码生成 + 空间感知落地”的直接先例；通常并非首次不可见目标的主动探索 |
+| [**Audio Visual Language Maps for Robot Navigation**](https://avlmaps.github.io/) | ISER 2023 | `Code-Nav` | **1 · 任务** — 将语言导航扩展至声音、图像与物体等多模态线索<br>**2 · 方法** — 用 LLM 生成可执行程序，查询/融合模态地图热度图并调用导航接口<br>**3 · 亮点** — 适合借鉴“程序化感知查询与目标核验”，但并非在线主动搜索方法 |
+| [**Code as Policies: Language Model Programs for Embodied Control**](https://arxiv.org/abs/2209.07753) | ICRA 2023 | `Code-Nav` | **1 · 任务** — 将自然语言转为可执行机器人策略，包含移动机器人导航演示<br>**2 · 方法** — 通过层次代码生成组合感知 API、条件分支、循环和运动原语<br>**3 · 亮点** — Code-as-Action 基础方法；并未以初始不可见目标的自主发现为主任务 |
+| [**VIA: Visual Interface Agent for Robot Control**](https://arxiv.org/abs/2607.11119) | arXiv preprint · 2026-07 | `Tool-Agent` | **1 · 任务** — 探索通用 Coding/Computer-Use Agent 通过可视化界面控制机器人<br>**2 · 方法** — Agent 读取截图、调用工具并依据视觉反馈修正执行，无需专门微调控制模型<br>**3 · 亮点** — 项目展示含导航环节的移动操作任务；本质偏视觉工具调用，而非导航程序合成 |
+| [**Fly-by-Code: Embodied Coding Agents for Aerial Manipulation with Active Visual and Physical Feedback**](https://arxiv.org/abs/2610.12549) | arXiv preprint · 2026-10 | `Code-Transfer` | **1 · 任务** — 研究空中操作的部分可观测性与失败原因难确认问题<br>**2 · 方法** — 生成任务程序与独立的主动 View/Probe 诊断程序，主动获取缺失证据<br>**3 · 亮点** — 适合迁移至无人机主动视点诊断，但论文并未评测初始不可见目标导航 |
+| [**Coding Agents for Generalized Task and Motion Planning Problems**](https://arxiv.org/abs/2609.30233) | arXiv preprint · 2026-09 | `Code-Transfer` | **1 · 任务** — 研究 Coding Agent 能否自动合成可泛化的任务与运动规划程序<br>**2 · 方法** — 通过仿真探测、编写/测试 Python 程序，再冻结策略评测新实例<br>**3 · 亮点** — 适合程序合成与测试协议；主要采用物体级可观测状态，并非视觉主动搜索 |
+| [**Towards Reliable Code-as-Policies: A Neuro-Symbolic Framework for Embodied Task Planning**](https://papers.neurips.cc/paper_files/paper/2025/hash/6d13ce54347c65845614d01ced1dbe23-Abstract-Conference.html) | NeurIPS 2025 | `Code-Transfer` | **1 · 任务** — 解决部分可观测环境中可执行机器人计划的环境落地问题<br>**2 · 方法** — 将符号验证与主动获取缺失观察的探索代码相结合<br>**3 · 亮点** — 最适合借鉴“先补证据、再执行”；主要评测具身任务而非 UAV ObjectNav |
+| [**ProgPrompt: Generating Situated Robot Task Plans using Large Language Models**](https://progprompt.github.io/) | ICRA 2023 / Autonomous Robots 2023 | `Code-Transfer` | **1 · 任务** — 根据语言和环境对象生成可执行的情境化家居任务计划<br>**2 · 方法** — 用 Python 风格动作 API、前置条件与断言表示计划，并依据执行反馈恢复<br>**3 · 亮点** — 可执行任务规划的经典参考，但并非主动视觉导航/视点选择方法 |
+| [**Voyager: An Open-Ended Embodied Agent with Large Language Models**](https://arxiv.org/abs/2305.16291) | TMLR 2024 | `Code-Transfer` | **1 · 任务** — 研究 Minecraft 环境中的自主探索与开放式技能获取<br>**2 · 方法** — 通过可执行代码技能库、自动课程、报错反馈与自我校验持续迭代<br>**3 · 亮点** — 可借鉴可积累的发现技能，但 Minecraft 不等价于真实机器人视觉导航 |
+| [**A Few Words Go a Long Way: Language Guided Robot Policy Synthesis**](https://arxiv.org/abs/2607.23784) | arXiv preprint · 2026-07 | `Code-Transfer` | **1 · 任务** — 将机器人策略获取建模为有人类监督的交互式程序合成<br>**2 · 方法** — Coding Agent 组合感知/控制模块，并根据自然语言纠错及执行轨迹修改代码<br>**3 · 亮点** — 可借鉴主动搜索策略的可解释修复，但评测任务以操作为主 |
+| [**SpaceMind: A Modular and Self-Evolving Embodied Vision-Language Agent Framework for Autonomous On-orbit Servicing**](https://doi.org/10.1016/j.actaastro.2026.09.004) | Acta Astronautica 2026 (online) | `Tool-Agent` | **1 · 任务** — 研究航天器近距离导航、搜索接近与视觉检查<br>**2 · 方法** — 结合 VLM 推理、工具/技能路由、持久化技能文件与反馈自适应<br>**3 · 亮点** — 搜索到接近的相关参考；属于工具编排/技能演化，不应等同于即时代码合成 |
 
 <a id="sec-a"></a>
 
@@ -176,7 +207,7 @@
 
 ## 研究路线与实验建议
 
-**建议阅读顺序：** PONI → VLFM → WoMAP / Context-Nav → FUEL / STEM → UAV-ON → APEX / OctoMem-Agent → UAST → OpenFly / AirSim360。前半段学习主动搜索的目标函数，后半段研究空中三维感知和动作。
+**建议阅读顺序：** ASENA → VLMaps / Code as Policies → Fly-by-Code / Reliable Code-as-Policies → PONI → VLFM → WoMAP / Context-Nav → FUEL / STEM → UAV-ON → APEX / OctoMem-Agent → UAST → OpenFly / AirSim360。前半段学习主动搜索的目标函数，后半段研究空中三维感知和动作。
 
 | 研究问题 | 必须控制的实验变量 | 推荐指标 |
 | :--- | :--- | :--- |
